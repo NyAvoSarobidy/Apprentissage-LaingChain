@@ -1,12 +1,6 @@
-"""
-test_etape2.py — Test rapide de l'Étape 2
-==========================================
-Vérifie la gestion de la mémoire conversationnelle
-SANS avoir besoin de Streamlit ni des clés API.
 
-Usage :
-    python test_etape2.py
-"""
+# test_etape2.py — Test rapide de l'Étape 2
+
 
 import sys
 from pathlib import Path
@@ -52,7 +46,7 @@ class FakeSessionState:
 
 def test_init_memory():
     print("=" * 60)
-    print("🧪 Test 1 : Initialisation de la mémoire")
+    print("Test 1 : Initialisation de la mémoire")
     print("=" * 60)
 
     state = FakeSessionState()
@@ -66,8 +60,8 @@ def test_init_memory():
     assert hasattr(state, "messages"), "messages devrait exister après init"
     assert state.messages == [], "messages devrait être une liste vide"
 
-    print("   ✅ Mémoire initialisée avec une liste vide")
-    print("   ✅ Test 1 réussi !\n")
+    print("Mémoire initialisée avec une liste vide")
+    print("Test 1 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -77,7 +71,7 @@ def test_init_memory():
 
 def test_add_message():
     print("=" * 60)
-    print("🧪 Test 2 : Ajout de messages")
+    print("Test 2 : Ajout de messages")
     print("=" * 60)
 
     state = FakeSessionState()
@@ -93,8 +87,8 @@ def test_add_message():
     assert state.messages[1]["role"] == "ai"
     assert state.messages[2]["content"] == "Comment ça marche ?"
 
-    print(f"   ✅ {len(state.messages)} messages ajoutés correctement")
-    print("   ✅ Test 2 réussi !\n")
+    print(f" {len(state.messages)} messages ajoutés correctement")
+    print("  Test 2 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -104,7 +98,7 @@ def test_add_message():
 
 def test_get_conversation_history():
     print("=" * 60)
-    print("🧪 Test 3 : Historique formaté")
+    print("Test 3 : Historique formaté")
     print("=" * 60)
 
     state = FakeSessionState()
@@ -122,8 +116,8 @@ def test_get_conversation_history():
     assert "Utilisateur: Qu'est-ce que le RAG ?" in history
     assert "Assistant: Le RAG combine recherche et génération." in history
 
-    print("   ✅ Historique formaté correctement")
-    print("   ✅ Test 3 réussi !\n")
+    print("   Historique formaté correctement")
+    print("   Test 3 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -133,7 +127,7 @@ def test_get_conversation_history():
 
 def test_get_langchain_messages():
     print("=" * 60)
-    print("🧪 Test 4 : Conversion en messages LangChain")
+    print("Test 4 : Conversion en messages LangChain")
     print("=" * 60)
 
     state = FakeSessionState()
@@ -152,9 +146,9 @@ def test_get_langchain_messages():
     assert messages[0].content == "Question test"
     assert messages[1].content == "Réponse test"
 
-    print(f"   ✅ {len(messages)} messages LangChain créés")
-    print("   ✅ Types : HumanMessage, AIMessage")
-    print("   ✅ Test 4 réussi !\n")
+    print(f"  {len(messages)} messages LangChain créés")
+    print("   Types : HumanMessage, AIMessage")
+    print("   Test 4 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -164,7 +158,7 @@ def test_get_langchain_messages():
 
 def test_clear_memory():
     print("=" * 60)
-    print("🧪 Test 5 : Effacement de la mémoire")
+    print("Test 5 : Effacement de la mémoire")
     print("=" * 60)
 
     state = FakeSessionState()
@@ -177,8 +171,8 @@ def test_clear_memory():
     clear_memory(state)
     assert len(state.messages) == 0, "La mémoire devrait être vide après clear"
 
-    print("   ✅ Mémoire effacée correctement")
-    print("   ✅ Test 5 réussi !\n")
+    print("    Mémoire effacée correctement")
+    print("    Test 5 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -188,7 +182,7 @@ def test_clear_memory():
 
 def test_empty_history():
     print("=" * 60)
-    print("🧪 Test 6 : Historique vide")
+    print(" Test 6 : Historique vide")
     print("=" * 60)
 
     state = FakeSessionState()
@@ -200,8 +194,8 @@ def test_empty_history():
     messages = get_langchain_messages(state)
     assert messages == [], "La liste de messages devrait être vide"
 
-    print("   ✅ Historique vide géré correctement")
-    print("   ✅ Test 6 réussi !\n")
+    print("    Historique vide géré correctement")
+    print("    Test 6 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -210,7 +204,7 @@ def test_empty_history():
 
 
 if __name__ == "__main__":
-    print("\n🧪 Tests de l'Étape 2 — Mémoire conversationnelle\n")
+    print("\n Tests de l'Étape 2 — Mémoire conversationnelle\n")
     print("   (Tests locaux, pas de clé API requise)\n")
 
     try:
@@ -222,14 +216,14 @@ if __name__ == "__main__":
         test_empty_history()
 
         print("=" * 60)
-        print("🎉 Tous les tests de l'Étape 2 sont réussis !")
+        print(" Tous les tests de l'Étape 2 sont réussis !")
         print("=" * 60)
         print()
-        print("📋 Pour tester l'interface Streamlit :")
+        print(" Pour tester l'interface Streamlit :")
         print("   1. pip install streamlit")
         print("   2. streamlit run src/app.py")
         print()
 
     except AssertionError as e:
-        print(f"   ❌ Échec : {e}")
+        print(f"    Échec : {e}")
         exit(1)

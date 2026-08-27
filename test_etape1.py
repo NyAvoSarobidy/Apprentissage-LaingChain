@@ -1,12 +1,6 @@
-"""
-test_etape1.py — Test rapide de l'Étape 1
-==========================================
-Vérifie le découpage et le formatage des citations
-SANS avoir besoin des clés API (test local uniquement).
 
-Usage :
-    python test_etape1.py
-"""
+# test_etape1.py — Test rapide de l'Étape 1
+
 
 from pathlib import Path
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -23,7 +17,7 @@ def test_split_documents():
     et conserve les métadonnées.
     """
     print("=" * 60)
-    print("🧪 Test 1 : Découpage en chunks")
+    print(" Test 1 : Découpage en chunks")
     print("=" * 60)
 
     # Simulons un document de 3 pages
@@ -60,8 +54,8 @@ def test_split_documents():
 
     chunks = splitter.split_documents([doc])
 
-    print(f"   Texte original : {len(long_text)} caractères")
-    print(f"   Chunks produits : {len(chunks)}")
+    print(f" Texte original : {len(long_text)} caractères")
+    print(f" Chunks produits : {len(chunks)}")
 
     # Vérifications
     assert len(chunks) > 1, "Le découpage devrait produire plusieurs chunks"
@@ -71,9 +65,9 @@ def test_split_documents():
         assert chunk.metadata["page"] == 0, "Métadonnées page perdues"
         assert len(chunk.page_content) <= 1200, f"Chunk {i} trop grand: {len(chunk.page_content)}"
 
-    print(f"   ✅ Tous les chunks ont les métadonnées correctes")
-    print(f"   ✅ Taille max d'un chunk : {max(len(c.page_content) for c in chunks)} caractères")
-    print("   ✅ Test 1 réussi !\n")
+    print(f" Tous les chunks ont les métadonnées correctes")
+    print(f" Taille max d'un chunk : {max(len(c.page_content) for c in chunks)} caractères")
+    print("  Test 1 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -87,7 +81,7 @@ def test_format_docs():
     avec les citations [source, page N] correctement formatées.
     """
     print("=" * 60)
-    print("🧪 Test 2 : Formatage des citations")
+    print("Test 2 : Formatage des citations")
     print("=" * 60)
 
     # Simulons des chunks récupérés
@@ -129,9 +123,9 @@ def test_format_docs():
     assert "[rapport_auto.pdf, page 6]" in result, "Citation page 6 manquante"
     assert "/chemin/vers/" not in result, "Le chemin complet ne devrait pas apparaître"
 
-    print("   ✅ Les citations sont au bon format [source, page N]")
-    print("   ✅ Seul le nom du fichier apparaît (pas le chemin complet)")
-    print("   ✅ Test 2 réussi !\n")
+    print("   Les citations sont au bon format [source, page N]")
+    print("   Seul le nom du fichier apparaît (pas le chemin complet)")
+    print("   Test 2 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -144,7 +138,7 @@ def test_overlap():
     Vérifie que les chunks consécutifs ont bien un chevauchement.
     """
     print("=" * 60)
-    print("🧪 Test 3 : Chevauchement (overlap)")
+    print("Test 3 : Chevauchement (overlap)")
     print("=" * 60)
 
     text = "Mot1 Mot2 Mot3 Mot4 Mot5 Mot6 Mot7 Mot8 Mot9 Mot10 " * 20
@@ -171,8 +165,8 @@ def test_overlap():
             break
 
     assert has_overlap, "Aucun chevauchement détecté entre chunks consécutifs"
-    print("   ✅ Chevauchement vérifié entre chunks consécutifs")
-    print("   ✅ Test 3 réussi !\n")
+    print(" Chevauchement vérifié entre chunks consécutifs")
+    print(" Test 3 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -181,7 +175,7 @@ def test_overlap():
 
 
 if __name__ == "__main__":
-    print("\n🧪 Tests de l'Étape 1 — Pipeline RAG basique\n")
+    print("\n Tests de l'Étape 1 — Pipeline RAG basique\n")
     print("   (Tests locaux, pas de clé API requise)\n")
 
     try:
@@ -193,7 +187,7 @@ if __name__ == "__main__":
         print("🎉 Tous les tests de l'Étape 1 sont réussis !")
         print("=" * 60)
         print()
-        print("📋 Prochaines étapes pour le test complet :")
+        print("Prochaines étapes pour le test complet :")
         print("   1. pip install -r requirements.txt")
         print("   2. Copier .env.example → .env et remplir les clés")
         print("   3. Déposer un PDF dans documents/")
@@ -202,5 +196,5 @@ if __name__ == "__main__":
         print()
 
     except AssertionError as e:
-        print(f"   ❌ Échec : {e}")
+        print(f" Échec : {e}")
         exit(1)

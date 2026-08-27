@@ -1,18 +1,5 @@
-"""
-rag_chain.py — Chaîne RAG avec citations, reformulation et recherche hybride
-=============================================================================
-Construit la chaîne de question-réponse :
-  question + historique → reformulateur → question autonome → retriever → prompt → LLM → réponse
 
-Fonctionnalités :
-  - Reformulation contextuelle (Étape 3) : transforme les questions dépendantes
-    du contexte en questions autonomes avant la recherche.
-  - Recherche hybride (Étape 4) : combine recherche vectorielle (sémantique)
-    et BM25 (mots-clés) via EnsembleRetriever.
-
-Usage :
-    python -m src.rag_chain
-"""
+# rag_chain.py — Chaîne RAG avec citations, reformulation et recherche hybride
 
 import os
 from pathlib import Path
@@ -51,14 +38,6 @@ K = 5
 # avec seulement 2 semaines de preavis.
 LLM_MODEL = "gemini-3.6-flash"
 
-# NOTE VERIFIEE : les modeles Gemini 3.x utilisent un sampling FIXE.
-# Passer temperature=0 est ignore et declenche un UserWarning :
-#   "Model 'gemini-3.6-flash' uses fixed sampling defaults;
-#    the sampling parameter(s) temperature will be ignored."
-# On ne le passe donc pas. Le determinisme voulu pour le RAG est de toute
-# facon obtenu par le prompt strict, pas par la temperature.
-# Mettre a True seulement si on repasse sur un modele qui l'accepte
-# (Claude, Groq, Gemini 2.5...).
 SUPPORTS_TEMPERATURE = False
 LLM_TEMPERATURE = 0
 
@@ -74,23 +53,8 @@ USE_REFORMULATION = True
 # Activer/désactiver la recherche hybride (Étape 4)
 USE_HYBRID_SEARCH = True
 
-# Pondération de la recherche hybride
-# 0.7 = 70% vectoriel, 30% BM25 — favorise la sémantique
-# 0.5 = 50/50 — équilibre parfait
-# 0.3 = 30% vectoriel, 70% BM25 — favorise les mots-clés
 HYBRID_WEIGHT_VECTOR = 0.7
 HYBRID_WEIGHT_BM25 = 0.3
-
-# ---------------------------------------------------------------------------
-# Prompt système
-# ---------------------------------------------------------------------------
-
-# Ce prompt est le "mode d'emploi" donné au LLM.
-# Il définit :
-#   1. Le rôle : assistant documentaire factuel
-#   2. La règle d'or : répondre UNIQUEMENT d'après le contexte
-#   3. Le format des citations : [source, page N]
-#   4. Le comportement en cas d'absence de réponse
 
 SYSTEM_PROMPT = """Tu es un assistant documentaire factuel.
 Tu réponds exclusivement à partir des documents fournis dans le contexte ci-dessous.
@@ -183,11 +147,11 @@ def load_vectorstore() -> Chroma:
     # Vérifier que la collection n'est pas vide
     count = vectorstore._collection.count()
     if count == 0:
-        print("❌ La base vectorielle est vide.")
+        print("La base vectorielle est vide.")
         print("   Lance d'abord : python -m src.ingest")
         return None
 
-    print(f"📊 Base vectorielle chargée : {count} chunks indexés")
+    print(f"Base vectorielle chargée : {count} chunks indexés")
     return vectorstore
 
 
@@ -216,7 +180,7 @@ def build_hybrid_retriever(vectorstore: Chroma, chunks: list) -> HybridRetriever
         weight_bm25=HYBRID_WEIGHT_BM25,
     )
 
-    print(f"🔀 Recherche hybride activée : {HYBRID_WEIGHT_VECTOR*100:.0f}% vectoriel + {HYBRID_WEIGHT_BM25*100:.0f}% BM25")
+    print(f"Recherche hybride activée : {HYBRID_WEIGHT_VECTOR*100:.0f}% vectoriel + {HYBRID_WEIGHT_BM25*100:.0f}% BM25")
     return hybrid_retriever
 
 
@@ -254,7 +218,7 @@ def build_rag_chain(vectorstore: Chroma, chunks: list = None, use_reformulation:
             search_kwargs={"k": K},
         )
         if USE_HYBRID_SEARCH and chunks is None:
-            print("⚠️  Recherche hybride activée mais chunks non fournis. Utilisation du vectoriel seul.")
+            print("Recherche hybride activée mais chunks non fournis. Utilisation du vectoriel seul.")
             print("   Pour activer la recherche hybride, passe les chunks à build_rag_chain.")
 
     # --- LLM principal ---
@@ -332,13 +296,13 @@ def ask_question(chain, question: str, history: str = "") -> str:
     Si la reformulation est activée, l'historique est passé
     au reformulateur pour contextualiser la question.
     """
-    print(f"\n❓ Question : {question}")
+    print(f"\n Question : {question}")
     print("-" * 60)
 
     # invoke() exécute toute la chaîne
     response = chain.invoke(question)
 
-    print(f"💬 Réponse :\n{response}")
+    print(f" Réponse :\n{response}")
     return response
 
 
@@ -350,14 +314,14 @@ def main():
 
     # Vérifier les clés API
     if not os.getenv("GOOGLE_API_KEY"):
-        print("❌ GOOGLE_API_KEY manquante. Vérifie ton fichier .env")
+        print(" GOOGLE_API_KEY manquante. Vérifie ton fichier .env")
         return
 
     print("=" * 60)
-    print("🤖 Assistant RAG — Mode interactif")
-    print("   Tape 'quit' pour sortir")
-    print("   Reformulation contextuelle : activée" if USE_REFORMULATION else "   Reformulation contextuelle : désactivée")
-    print("   Recherche hybride : activée" if USE_HYBRID_SEARCH else "   Recherche hybride : désactivée")
+    print(" Assistant RAG — Mode interactif")
+    print(" Tape 'quit' pour sortir")
+    print(" Reformulation contextuelle : activée" if USE_REFORMULATION else "   Reformulation contextuelle : désactivée")
+    print(" Recherche hybride : activée" if USE_HYBRID_SEARCH else "   Recherche hybride : désactivée")
     print("=" * 60)
 
     # Charger la base vectorielle
@@ -368,7 +332,7 @@ def main():
     # Charger les chunks pour BM25 (si recherche hybride activée)
     chunks = None
     if USE_HYBRID_SEARCH:
-        print("📄 Chargement des chunks pour BM25...")
+        print("Chargement des chunks pour BM25...")
         from src.ingest import load_pdfs, split_documents
         documents_dir = Path(__file__).parent.parent / "documents"
         docs = load_pdfs(documents_dir)
@@ -376,7 +340,7 @@ def main():
             chunks = split_documents(docs)
             print(f"   → {len(chunks)} chunks chargés pour BM25")
         else:
-            print("   ⚠️  Aucun PDF trouvé. Recherche vectorielle seule.")
+            print("Aucun PDF trouvé. Recherche vectorielle seule.")
 
     # Construire la chaîne RAG
     rag_chain = build_rag_chain(vectorstore, chunks=chunks, use_reformulation=USE_REFORMULATION)
@@ -386,10 +350,10 @@ def main():
 
     # Boucle de questions
     while True:
-        question = input("\n🔍 Ta question > ").strip()
+        question = input("\nTa question > ").strip()
 
         if question.lower() in ("quit", "exit", "q"):
-            print("👋 Au revoir !")
+            print("Au revoir !")
             break
 
         if not question:
@@ -410,7 +374,7 @@ def main():
         else:
             response = rag_chain.invoke(question)
 
-        print(f"\n💬 Réponse :\n{response}")
+        print(f"\n Réponse :\n{response}")
 
         # Sauvegarder dans l'historique
         history.append({"question": question, "answer": response})

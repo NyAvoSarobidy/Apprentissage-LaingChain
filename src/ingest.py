@@ -1,12 +1,6 @@
-"""
-ingest.py — Pipeline d'ingestion des PDF
-=========================================
-Charge les PDF du dossier documents/, les découpe en chunks,
-génère les embeddings et les indexe dans ChromaDB.
 
-Usage :
-    python -m src.ingest
-"""
+# ingest.py — Pipeline d'ingestion des PDF
+
 
 import os
 import time
@@ -18,10 +12,6 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_voyageai import VoyageAIEmbeddings
 from langchain_chroma import Chroma
 from tqdm import tqdm
-
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
 
 # Dossier contenant les PDF à indexer
 DOCUMENTS_DIR = Path(__file__).parent.parent / "documents"
@@ -47,20 +37,6 @@ CHUNK_OVERLAP = 200     # Chevauchement entre chunks consécutifs
 # Limites de debit (rate limits) Voyage AI
 # ---------------------------------------------------------------------------
 
-# PIEGE VERIFIE EN EXECUTION : sans carte bancaire enregistree, Voyage bride le
-# DEBIT a 3 requetes/minute et 10 000 tokens/minute. Les 200M tokens gratuits
-# restent acquis -- c'est le debit qui est limite, pas le volume.
-#
-# Envoyer 142 chunks d'un coup provoque :
-#   voyageai.error.RateLimitError: You have not yet added your payment method
-#   ... reduced rate limits of 3 RPM and 10K TPM
-#
-# On envoie donc par petits lots, avec une pause entre chaque, et on reessaie
-# avec un delai croissant si l'API refuse quand meme.
-
-# Nombre de chunks par requete.
-# ~1000 caracteres par chunk = ~250 tokens, donc 30 chunks = ~7500 tokens,
-# ce qui reste sous le plafond de 10 000 TPM.
 BATCH_SIZE = 30
 
 # Pause entre deux lots. A 3 RPM il faut 20 s entre requetes ; on prend 25 s
@@ -89,11 +65,11 @@ def load_pdfs(directory: Path) -> list:
     pdf_files = sorted(directory.glob("*.pdf"))
 
     if not pdf_files:
-        print(f"⚠️  Aucun PDF trouvé dans {directory}")
+        print(f"  Aucun PDF trouvé dans {directory}")
         print("   Dépose des fichiers PDF dans le dossier documents/ et relance.")
         return []
 
-    print(f"📂 {len(pdf_files)} PDF trouvé(s) :")
+    print(f" {len(pdf_files)} PDF trouvé(s) :")
     for pdf_path in pdf_files:
         print(f"   - {pdf_path.name}")
 
@@ -130,7 +106,7 @@ def split_documents(docs: list) -> list:
 
     chunks = splitter.split_documents(docs)
 
-    print(f"\n✂️  Découpage : {len(docs)} pages → {len(chunks)} chunks")
+    print(f"\n  Découpage : {len(docs)} pages → {len(chunks)} chunks")
     print(f"   chunk_size={CHUNK_SIZE}, overlap={CHUNK_OVERLAP}")
     return chunks
 
@@ -158,7 +134,7 @@ def index_in_chroma(chunks: list) -> Chroma:
     persist_directory : les données sont sauvegardées sur disque,
     donc pas besoin de ré-indexer à chaque lancement.
     """
-    print(f"\n🔢 Génération des embeddings avec {EMBEDDING_MODEL}")
+    print(f"\n Génération des embeddings avec {EMBEDDING_MODEL}")
     embeddings = VoyageAIEmbeddings(model=EMBEDDING_MODEL)
 
     # Créer la collection (vide au départ)
@@ -171,7 +147,7 @@ def index_in_chroma(chunks: list) -> Chroma:
     lots = [chunks[i:i + BATCH_SIZE] for i in range(0, len(chunks), BATCH_SIZE)]
     duree_estimee = (len(lots) - 1) * DELAI_ENTRE_LOTS / 60
 
-    print("💾 Indexation par lots dans ChromaDB")
+    print(" Indexation par lots dans ChromaDB")
     print(f"   {len(chunks)} chunks → {len(lots)} lots de {BATCH_SIZE} max")
     print(f"   Pause de {DELAI_ENTRE_LOTS}s entre les lots (limite : 3 req/min)")
     print(f"   Durée estimée : ~{duree_estimee:.0f} min\n")
@@ -199,13 +175,13 @@ def index_in_chroma(chunks: list) -> Chroma:
 
                 if not est_rate_limit:
                     # Erreur non liée au débit : inutile de réessayer
-                    print(f"   ❌ Lot {numero} : {type(exc).__name__}")
+                    print(f"    Lot {numero} : {type(exc).__name__}")
                     print(f"      {message[:200]}")
                     raise
 
                 if tentative == MAX_TENTATIVES:
                     print(
-                        f"   ❌ Lot {numero} abandonné après "
+                        f"    Lot {numero} abandonné après "
                         f"{MAX_TENTATIVES} tentatives."
                     )
                     print(f"      {total_indexes} chunks indexés avant l'échec.")
@@ -215,7 +191,7 @@ def index_in_chroma(chunks: list) -> Chroma:
                 # Backoff exponentiel : 25s, 50s, 100s, 200s...
                 attente = DELAI_ENTRE_LOTS * (2 ** (tentative - 1))
                 print(
-                    f"   ⏳ Lot {numero} : limite de débit atteinte "
+                    f"    Lot {numero} : limite de débit atteinte "
                     f"(tentative {tentative}/{MAX_TENTATIVES}), "
                     f"attente {attente}s..."
                 )
@@ -238,11 +214,11 @@ def main():
 
     # Vérifier que les clés API sont présentes
     if not os.getenv("VOYAGE_API_KEY"):
-        print("❌ VOYAGE_API_KEY manquante. Vérifie ton fichier .env")
+        print(" VOYAGE_API_KEY manquante. Vérifie ton fichier .env")
         return
 
     print("=" * 60)
-    print("🚀 Pipeline d'ingestion RAG")
+    print(" Pipeline d'ingestion RAG")
     print("=" * 60)
 
     # Étape 1 : charger les PDF
@@ -256,7 +232,7 @@ def main():
     # Étape 3 : indexer dans ChromaDB
     index_in_chroma(chunks)
 
-    print("\n✅ Ingestion terminée ! Tu peux maintenant lancer rag_chain.py")
+    print("\n Ingestion terminée ! Tu peux maintenant lancer rag_chain.py")
 
 
 if __name__ == "__main__":

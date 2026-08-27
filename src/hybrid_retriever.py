@@ -1,16 +1,3 @@
-"""
-hybrid_retriever.py — Recherche hybride manuelle
-================================================
-Implémente la recherche hybride combinant :
-  - Recherche vectorielle (sémantique) via ChromaDB
-  - Recherche BM25 (mots-clés) via une implémentation simple
-  - Fusion RRF (Reciprocal Rank Fusion) pour combiner les classements
-
-Cette implémentation manuelle est plus formateur qu'un wrapper
-tout-fait, et évite les problèmes de compatibilité entre versions
-de LangChain.
-"""
-
 import math
 import re
 from collections import Counter
@@ -20,20 +7,6 @@ from langchain_core.documents import Document
 
 
 class HybridRetriever:
-    """
-    Recherche hybride combinant vectoriel et BM25 avec fusion RRF.
-
-    Principe :
-      1. Chaque retriever (vectoriel et BM25) produit un classement
-      2. RRF combine les classements : un chunk bien classé dans les
-         deux listes aura un score élevé
-
-    Attributs :
-      vector_retriever : le retriever vectoriel (ChromaDB)
-      bm25_retriever : le retriever BM25
-      weight_vector : poids du vectoriel (0.7 = 70%)
-      weight_bm25 : poids du BM25 (0.3 = 30%)
-    """
 
     def __init__(
         self,

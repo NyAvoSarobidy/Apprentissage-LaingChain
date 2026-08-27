@@ -1,17 +1,6 @@
-"""
-test_etape3.py — Test rapide de l'Étape 3
-==========================================
-Vérifie la logique de reformulation contextuelle
-SANS avoir besoin des clés API.
 
-On teste :
-  - La détection de questions autonomes (pas besoin de reformuler)
-  - La détection de questions dépendantes (à reformuler)
-  - Le format du prompt de reformulation
+# test_etape3.py — Test rapide de l'Étape 3
 
-Usage :
-    python test_etape3.py
-"""
 
 import sys
 from pathlib import Path
@@ -33,7 +22,7 @@ def test_reformulation_prompt():
       - Format de sortie attendu
     """
     print("=" * 60)
-    print("🧪 Test 1 : Contenu du prompt de reformulation")
+    print("Test 1 : Contenu du prompt de reformulation")
     print("=" * 60)
 
     # Vérifications
@@ -43,11 +32,11 @@ def test_reformulation_prompt():
     assert "{history}" in REFORMULATION_PROMPT, "Le prompt doit contenir le placeholder {history}"
     assert "{question}" in REFORMULATION_PROMPT, "Le prompt doit contenir le placeholder {question}"
 
-    print("   ✅ Le prompt contient 'reformule'")
-    print("   ✅ Le prompt contient 'historique'")
-    print("   ✅ Le prompt interdit de répondre à la question")
-    print("   ✅ Les placeholders {history} et {question} sont présents")
-    print("   ✅ Test 1 réussi !\n")
+    print("    Le prompt contient 'reformule'")
+    print("    Le prompt contient 'historique'")
+    print("    Le prompt interdit de répondre à la question")
+    print("    Les placeholders {history} et {question} sont présents")
+    print("    Test 1 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -65,7 +54,7 @@ def test_dependent_questions():
       - Des adverbes de liaison (ensuite, de plus, par ailleurs)
     """
     print("=" * 60)
-    print("🧪 Test 2 : Détection des questions dépendantes")
+    print(" Test 2 : Détection des questions dépendantes")
     print("=" * 60)
 
     import re
@@ -111,15 +100,15 @@ def test_dependent_questions():
     for q in dependent_questions:
         result = is_dependent(q)
         assert result, f"'{q}' devrait être détectée comme dépendante"
-        print(f"      ✅ '{q}' → dépendante")
+        print(f"       '{q}' → dépendante")
 
     print("\n   Questions autonomes détectées :")
     for q in autonomous_questions:
         result = is_dependent(q)
         assert not result, f"'{q}' devrait être détectée comme autonome"
-        print(f"      ✅ '{q}' → autonome")
+        print(f"       '{q}' → autonome")
 
-    print("\n   ✅ Test 2 réussi !\n")
+    print("\n   Test 2 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -133,7 +122,7 @@ def test_history_formatting():
     pour être injecté dans le prompt de reformulation.
     """
     print("=" * 60)
-    print("🧪 Test 3 : Format de l'historique")
+    print(" Test 3 : Format de l'historique")
     print("=" * 60)
 
     # Simulons un historique de conversation
@@ -159,8 +148,8 @@ def test_history_formatting():
     assert "Utilisateur: Quels sont les types d'IA ?" in history_text
     assert "Assistant: IA faible et IA forte." in history_text
 
-    print("\n   ✅ L'historique est correctement formaté")
-    print("   ✅ Test 3 réussi !\n")
+    print("\n    L'historique est correctement formaté")
+    print("    Test 3 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -174,7 +163,7 @@ def test_prompt_with_history():
     avec un historique et une question.
     """
     print("=" * 60)
-    print("🧪 Test 4 : Prompt de reformulation rempli")
+    print(" Test 4 : Prompt de reformulation rempli")
     print("=" * 60)
 
     history = "Utilisateur: Quels sont les types d'IA ?\nAssistant: IA faible et IA forte."
@@ -194,9 +183,9 @@ def test_prompt_with_history():
     assert "{history}" not in filled_prompt, "Le placeholder doit être remplacé"
     assert "{question}" not in filled_prompt, "Le placeholder doit être remplacé"
 
-    print("\n   ✅ L'historique et la question sont injectés")
-    print("   ✅ Les placeholders sont remplacés")
-    print("   ✅ Test 4 réussi !\n")
+    print("\n    L'historique et la question sont injectés")
+    print("    Les placeholders sont remplacés")
+    print("    Test 4 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -209,7 +198,7 @@ def test_reformulation_config():
     Vérifie que la configuration de la reformulation est correcte.
     """
     print("=" * 60)
-    print("🧪 Test 5 : Configuration")
+    print(" Test 5 : Configuration")
     print("=" * 60)
 
     from src.rag_chain import USE_REFORMULATION, REFORMULATOR_MODEL, LLM_MODEL
@@ -231,8 +220,8 @@ def test_reformulation_config():
     print(f"   Reformulation activée : {USE_REFORMULATION}")
     print(f"   Modèle reformulateur : {REFORMULATOR_MODEL}")
     print(f"   Modèle LLM principal : {LLM_MODEL}")
-    print("   ✅ Configuration correcte")
-    print("   ✅ Test 5 réussi !\n")
+    print("    Configuration correcte")
+    print("    Test 5 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -241,7 +230,7 @@ def test_reformulation_config():
 
 
 if __name__ == "__main__":
-    print("\n🧪 Tests de l'Étape 3 — Reformulation contextuelle\n")
+    print("\n Tests de l'Étape 3 — Reformulation contextuelle\n")
     print("   (Tests locaux, pas de clé API requise)\n")
 
     try:
@@ -255,7 +244,7 @@ if __name__ == "__main__":
         print("🎉 Tous les tests de l'Étape 3 sont réussis !")
         print("=" * 60)
         print()
-        print("📋 Pour tester avec les API :")
+        print(" Pour tester avec les API :")
         print("   1. Assure-toi d'avoir des PDF indexés")
         print("   2. python -m src.rag_chain")
         print("   3. Pose une question autonome, puis une question dépendante")
@@ -263,5 +252,5 @@ if __name__ == "__main__":
         print()
 
     except AssertionError as e:
-        print(f"   ❌ Échec : {e}")
+        print(f"    Échec : {e}")
         exit(1)

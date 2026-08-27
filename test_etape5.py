@@ -1,18 +1,6 @@
-"""
-test_etape5.py — Test rapide de l'Étape 5
-==========================================
-Vérifie les fonctions d'évaluation
-SANS avoir besoin des clés API.
 
-On teste :
-  - L'extraction des citations
-  - Le calcul de la pertinence
-  - La détection des refus
-  - Le chargement des questions
+# test_etape5.py — Test rapide de l'Étape 5
 
-Usage :
-    python test_etape5.py
-"""
 
 import sys
 from pathlib import Path
@@ -38,7 +26,7 @@ def test_evaluate_citations():
     Vérifie que l'évaluation des citations fonctionne correctement.
     """
     print("=" * 60)
-    print("🧪 Test 1 : Évaluation des citations")
+    print(" Test 1 : Évaluation des citations")
     print("=" * 60)
 
     # Réponse avec citations valides
@@ -59,8 +47,8 @@ def test_evaluate_citations():
     assert len(result["valid"]) == 2, "2 citations valides attendues"
     assert len(result["invalid"]) == 0, "Aucune citation invalide"
 
-    print("   ✅ Citations valides détectées")
-    print("   ✅ Test 1 réussi !\n")
+    print("    Citations valides détectées")
+    print("    Test 1 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -73,7 +61,7 @@ def test_evaluate_invalid_citations():
     Vérifie la détection de citations invalides (sources inventées).
     """
     print("=" * 60)
-    print("🧪 Test 2 : Citations invalides")
+    print(" Test 2 : Citations invalides")
     print("=" * 60)
 
     # Réponse avec une citation inventée
@@ -94,8 +82,8 @@ def test_evaluate_invalid_citations():
     assert len(result["valid"]) == 1, "1 citation valide"
     assert len(result["invalid"]) == 1, "1 citation invalide"
 
-    print("   ✅ Citations invalides détectées")
-    print("   ✅ Test 2 réussi !\n")
+    print("    Citations invalides détectées")
+    print("    Test 2 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -108,7 +96,7 @@ def test_evaluate_relevance():
     Vérifie que la pertinence est correctement calculée.
     """
     print("=" * 60)
-    print("🧪 Test 3 : Pertinence de la réponse")
+    print(" Test 3 : Pertinence de la réponse")
     print("=" * 60)
 
     # Réponse contenant les mots-clés attendus
@@ -128,8 +116,8 @@ def test_evaluate_relevance():
     assert len(result["found"]) == 4, "4 mots-clés trouvés"
     assert len(result["missing"]) == 0, "Aucun mot-clé manquant"
 
-    print("   ✅ Pertinence correcte")
-    print("   ✅ Test 3 réussi !\n")
+    print("    Pertinence correcte")
+    print("    Test 3 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -142,7 +130,7 @@ def test_evaluate_partial_relevance():
     Vérifie la pertinence quand seuls certains mots-clés sont présents.
     """
     print("=" * 60)
-    print("🧪 Test 4 : Pertinence partielle")
+    print(" Test 4 : Pertinence partielle")
     print("=" * 60)
 
     # Réponse incomplète
@@ -162,8 +150,8 @@ def test_evaluate_partial_relevance():
     assert len(result["found"]) == 3, "3 mots-clés trouvés"
     assert len(result["missing"]) == 2, "2 mots-clés manquants"
 
-    print("   ✅ Pertinence partielle correcte")
-    print("   ✅ Test 4 réussi !\n")
+    print("    Pertinence partielle correcte")
+    print("    Test 4 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -176,7 +164,7 @@ def test_evaluate_refusal():
     Vérifie que les refus sont correctement détectés.
     """
     print("=" * 60)
-    print("🧪 Test 5 : Détection des refus")
+    print(" Test 5 : Détection des refus")
     print("=" * 60)
 
     # Cas 1 : le système devrait répondre mais refuse (incorrect)
@@ -211,8 +199,8 @@ def test_evaluate_refusal():
     assert result["correct"] is True, "Le système répond correctement"
     assert result["score"] == 1.0, "Score 1 pour réponse correcte"
 
-    print("   ✅ Refusals correctement détectés")
-    print("   ✅ Test 5 réussi !\n")
+    print("   Refusals correctement détectés")
+    print("   Test 5 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -225,7 +213,7 @@ def test_evaluate_chunk_retrieval():
     Vérifie que le rappel des chunks est correctement calculé.
     """
     print("=" * 60)
-    print("🧪 Test 6 : Rappel des chunks")
+    print("Test 6 : Rappel des chunks")
     print("=" * 60)
 
     # Simulons des chunks récupérés
@@ -259,8 +247,8 @@ def test_evaluate_chunk_retrieval():
     assert len(result["found"]) == 1, "1 source trouvée"
     assert len(result["missing"]) == 1, "1 source manquante"
 
-    print("   ✅ Rappel des chunks correct")
-    print("   ✅ Test 6 réussi !\n")
+    print("   Rappel des chunks correct")
+    print("   Test 6 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -273,7 +261,7 @@ def test_load_questions():
     Vérifie que le fichier de questions est correctement chargé.
     """
     print("=" * 60)
-    print("🧪 Test 7 : Chargement des questions")
+    print("Test 7 : Chargement des questions")
     print("=" * 60)
 
     data = load_questions()
@@ -305,8 +293,8 @@ def test_load_questions():
     print(f"   Questions avec réponse : {should_answer_count}")
     print(f"   Questions sans réponse : {len(data['questions']) - should_answer_count}")
 
-    print("   ✅ Questions chargées correctement")
-    print("   ✅ Test 7 réussi !\n")
+    print("   Questions chargées correctement")
+    print("   Test 7 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -315,7 +303,7 @@ def test_load_questions():
 
 
 if __name__ == "__main__":
-    print("\n🧪 Tests de l'Étape 5 — Évaluation\n")
+    print("\n Tests de l'Étape 5 — Évaluation\n")
     print("   (Tests locaux, pas de clé API requise)\n")
 
     try:
@@ -328,15 +316,15 @@ if __name__ == "__main__":
         test_load_questions()
 
         print("=" * 60)
-        print("🎉 Tous les tests de l'Étape 5 sont réussis !")
+        print(" Tous les tests de l'Étape 5 sont réussis !")
         print("=" * 60)
         print()
-        print("📋 Pour lancer l'évaluation complète :")
+        print(" Pour lancer l'évaluation complète :")
         print("   1. Assure-toi d'avoir des PDF indexés")
         print("   2. python -m eval.evaluate")
         print("   3. Le rapport sera sauvegardé dans eval/rapport_evaluation.txt")
         print()
 
     except AssertionError as e:
-        print(f"   ❌ Échec : {e}")
+        print(f"    Échec : {e}")
         exit(1)

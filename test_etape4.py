@@ -1,18 +1,7 @@
-"""
-test_etape4.py — Test rapide de l'Étape 4
-==========================================
-Vérifie la recherche hybride (vectoriel + BM25)
-SANS avoir besoin des clés API.
 
-On teste :
-  - Le fonctionnement de BM25 seul
-  - La fusion RRF (Reciprocal Rank Fusion)
-  - La pondération des retrievers
-  - Le score BM25 manuel
+# test_etape4.py — Test rapide de l'Étape 4
 
-Usage :
-    python test_etape4.py
-"""
+
 
 import sys
 from pathlib import Path
@@ -72,7 +61,7 @@ def test_bm25_retriever():
     Vérifie que BM25 retrouve les documents par mots-clés.
     """
     print("=" * 60)
-    print("🧪 Test 1 : BM25 — Recherche par mots-clés")
+    print(" Test 1 : BM25 — Recherche par mots-clés")
     print("=" * 60)
 
     docs = create_test_documents()
@@ -92,8 +81,8 @@ def test_bm25_retriever():
     assert len(results) > 0, "BM25 devrait trouver des résultats"
     assert any("BM25" in doc.page_content for doc in results), "Le document sur BM25 devrait être dans les résultats"
 
-    print("   ✅ BM25 trouve les documents par mots-clés")
-    print("   ✅ Test 1 réussi !\n")
+    print("   BM25 trouve les documents par mots-clés")
+    print("   Test 1 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -107,7 +96,7 @@ def test_bm25_vs_vectorial():
     la recherche d'un terme technique exact.
     """
     print("=" * 60)
-    print("🧪 Test 2 : Cas où BM25 excelle")
+    print(" Test 2 : Cas où BM25 excelle")
     print("=" * 60)
 
     docs = create_test_documents()
@@ -128,8 +117,8 @@ def test_bm25_vs_vectorial():
     assert len(results) > 0, "BM25 devrait trouver des résultats"
     assert any("voyage-3-longpert" in doc.page_content for doc in results), "Le document mentionnant voyage-3-longpert devrait être trouvé"
 
-    print("   ✅ BM25 trouve les termes techniques exacts")
-    print("   ✅ Test 2 réussi !\n")
+    print("    BM25 trouve les termes techniques exacts")
+    print("    Test 2 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -143,7 +132,7 @@ def test_hybrid_retriever():
     du vectoriel et de BM25.
     """
     print("=" * 60)
-    print("🧪 Test 3 : HybridRetriever — Fusion RRF")
+    print(" Test 3 : HybridRetriever — Fusion RRF")
     print("=" * 60)
 
     docs = create_test_documents()
@@ -179,8 +168,8 @@ def test_hybrid_retriever():
     assert len(results) > 0, "HybridRetriever devrait trouver des résultats"
     assert len(results) <= 3, "HybridRetriever devrait retourner au plus k résultats"
 
-    print("   ✅ HybridRetriever fusionne les résultats")
-    print("   ✅ Test 3 réussi !\n")
+    print("    HybridRetriever fusionne les résultats")
+    print("    Test 3 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -193,7 +182,7 @@ def test_retriever_weights():
     Vérifie que la pondération influence les résultats.
     """
     print("=" * 60)
-    print("🧪 Test 4 : Pondération des retrievers")
+    print(" Test 4 : Pondération des retrievers")
     print("=" * 60)
 
     docs = create_test_documents()
@@ -241,8 +230,8 @@ def test_retriever_weights():
     assert len(results_a) > 0, "Devrait trouver des résultats"
     assert len(results_b) > 0, "Devrait trouver des résultats"
 
-    print("   ✅ La pondération influence les résultats")
-    print("   ✅ Test 4 réussi !\n")
+    print("    La pondération influence les résultats")
+    print("    Test 4 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -255,7 +244,7 @@ def test_bm25_score():
     Vérifie le calcul du score BM25.
     """
     print("=" * 60)
-    print("🧪 Test 5 : Score BM25 manuel")
+    print(" Test 5 : Score BM25 manuel")
     print("=" * 60)
 
     doc1 = "Le RAG combine recherche et génération"
@@ -279,8 +268,8 @@ def test_bm25_score():
     assert score1 > score2, "doc1 mentionne RAG, doc2 non → score1 > score2"
     assert score3 > score1, "doc3 mentionne RAG deux fois → score3 > score1"
 
-    print("   ✅ Le score BM25 reflète la pertinence")
-    print("   ✅ Test 5 réussi !\n")
+    print("    Le score BM25 reflète la pertinence")
+    print("    Test 5 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -293,7 +282,7 @@ def test_hybrid_config():
     Vérifie que la configuration de la recherche hybride est correcte.
     """
     print("=" * 60)
-    print("🧪 Test 6 : Configuration")
+    print(" Test 6 : Configuration")
     print("=" * 60)
 
     from src.rag_chain import (
@@ -314,8 +303,8 @@ def test_hybrid_config():
     print(f"   Poids vectoriel : {HYBRID_WEIGHT_VECTOR}")
     print(f"   Poids BM25 : {HYBRID_WEIGHT_BM25}")
     print(f"   K (nombre de résultats) : {K}")
-    print("   ✅ Configuration correcte")
-    print("   ✅ Test 6 réussi !\n")
+    print("    Configuration correcte")
+    print("    Test 6 réussi !\n")
 
 
 # ---------------------------------------------------------------------------
@@ -324,7 +313,7 @@ def test_hybrid_config():
 
 
 if __name__ == "__main__":
-    print("\n🧪 Tests de l'Étape 4 — Recherche hybride\n")
+    print("\n Tests de l'Étape 4 — Recherche hybride\n")
     print("   (Tests locaux, pas de clé API requise)\n")
 
     try:
@@ -336,10 +325,10 @@ if __name__ == "__main__":
         test_hybrid_config()
 
         print("=" * 60)
-        print("🎉 Tous les tests de l'Étape 4 sont réussis !")
+        print(" Tous les tests de l'Étape 4 sont réussis !")
         print("=" * 60)
         print()
-        print("📋 Pour tester avec les API :")
+        print(" Pour tester avec les API :")
         print("   1. Assure-toi d'avoir des PDF indexés")
         print("   2. python -m src.rag_chain")
         print("   3. Teste avec des questions techniques (termes exacts)")
@@ -347,5 +336,5 @@ if __name__ == "__main__":
         print()
 
     except AssertionError as e:
-        print(f"   ❌ Échec : {e}")
+        print(f"    Échec : {e}")
         exit(1)

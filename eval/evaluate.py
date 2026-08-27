@@ -1,18 +1,5 @@
-"""
-evaluate.py — Script d'évaluation du système RAG
-===================================================
-Mesure la qualité des réponses sur un jeu de questions-références.
 
-Métriques calculées :
-  - Précision des citations : les sources citées existent-elles ?
-  - Rappel des chunks : a-t-on trouvé les chunks pertinents ?
-  - Taux de "je ne sais pas" correct : le système refuse-t-il quand il faut ?
-  - Pertinence de la réponse : score 0-5 basé sur les mots-clés attendus
-  - Score global : moyenne pondérée
-
-Usage :
-    python -m eval.evaluate
-"""
+# evaluate.py — Script d'évaluation du système RAG
 
 import json
 import os
@@ -293,7 +280,7 @@ def print_report(results: list, output_path: str = None):
         print(line)
 
     add("=" * 70)
-    add("📊 RAPPORT D'ÉVALUATION DU SYSTÈME RAG")
+    add("RAPPORT D'ÉVALUATION DU SYSTÈME RAG")
     add("=" * 70)
     add()
 
@@ -306,7 +293,7 @@ def print_report(results: list, output_path: str = None):
     relevance_scores = [r["relevance"]["score"] for r in results]
     refusal_scores = [r["refusal"]["score"] for r in results]
 
-    add("📈 SCORES GLOBAUX")
+    add("SCORES GLOBAUX")
     add("-" * 70)
     add(f"   Score global moyen        : {avg_global:.2%}")
     add(f"   Précision des citations   : {sum(citation_scores)/len(citation_scores):.2%}")
@@ -316,7 +303,7 @@ def print_report(results: list, output_path: str = None):
     add()
 
     # Détails par question
-    add("📋 DÉTAILS PAR QUESTION")
+    add("DÉTAILS PAR QUESTION")
     add("-" * 70)
 
     for r in results:
@@ -327,17 +314,17 @@ def print_report(results: list, output_path: str = None):
 
         # Citations
         if r["citations"]["cited"]:
-            add(f"   📎 Citations: {len(r['citations']['valid'])}/{len(r['citations']['cited'])} valides")
+            add(f"    Citations: {len(r['citations']['valid'])}/{len(r['citations']['cited'])} valides")
 
         # Retrieval
         if r["retrieval"]["found"]:
-            add(f"   📦 Chunks trouvés: {', '.join(r['retrieval']['found'])}")
+            add(f"    Chunks trouvés: {', '.join(r['retrieval']['found'])}")
         if r["retrieval"]["missing"]:
-            add(f"   ❌ Chunks manquants: {', '.join(r['retrieval']['missing'])}")
+            add(f"    Chunks manquants: {', '.join(r['retrieval']['missing'])}")
 
         # Refusal
         if not r["refusal"]["correct"]:
-            add(f"   ⚠️  Refusal incorrect")
+            add(f"     Refusal incorrect")
 
     add()
     add("=" * 70)
@@ -346,7 +333,7 @@ def print_report(results: list, output_path: str = None):
     if output_path:
         with open(output_path, "w", encoding="utf-8") as f:
             f.write("\n".join(report_lines))
-        print(f"\n💾 Rapport sauvegardé : {output_path}")
+        print(f"\n Rapport sauvegardé : {output_path}")
 
 
 # ---------------------------------------------------------------------------
@@ -359,13 +346,13 @@ def main():
     load_dotenv()
 
     if not os.getenv("GOOGLE_API_KEY"):
-        print("❌ GOOGLE_API_KEY manquante. Vérifie ton fichier .env")
+        print(" GOOGLE_API_KEY manquante. Vérifie ton fichier .env")
         return
 
     # Charger les questions
     questions_data = load_questions()
     questions = questions_data["questions"]
-    print(f"📝 {len(questions)} questions chargées")
+    print(f" {len(questions)} questions chargées")
 
     # Charger la base vectorielle
     vectorstore = load_vectorstore()
@@ -377,7 +364,7 @@ def main():
     documents_dir = Path(__file__).parent.parent / "documents"
     docs = load_pdfs(documents_dir)
     if not docs:
-        print("❌ Aucun PDF trouvé dans documents/")
+        print(" Aucun PDF trouvé dans documents/")
         return
 
     chunks = split_documents(docs)
@@ -401,7 +388,7 @@ def main():
     # Évaluer chaque question
     results = []
     for i, question in enumerate(questions, 1):
-        print(f"\n🔍 Évaluation Q{i:02d}/{len(questions)}: {question['question'][:50]}...")
+        print(f"\n Évaluation Q{i:02d}/{len(questions)}: {question['question'][:50]}...")
         result = evaluate_single_question(chain, retriever, question)
         results.append(result)
         print(f"   Score: {result['global_score']:.0%}")
