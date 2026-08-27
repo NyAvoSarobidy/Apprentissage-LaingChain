@@ -10,26 +10,6 @@ Projet d'apprentissage LangChain : construire un assistant documentaire qui rép
 - **ChromaDB** — base vectorielle locale
 - **Streamlit** — interface web
 
-### Coût : zéro pour un projet d'apprentissage
-
-| Service | Palier gratuit | Carte requise |
-|---|---|---|
-| Google Gemini | permanent, quotas par minute/jour | non |
-| Voyage AI | 200M tokens par compte (permanent) | non |
-| ChromaDB | local, illimité | — |
-
-Obtenir les clés :
-- Gemini : https://aistudio.google.com/apikey
-- Voyage : https://dash.voyageai.com
-
-Ordre de grandeur : un PDF de 50 pages ≈ 25 000 tokens à indexer. L'allocation
-Voyage de 200M tokens couvre donc environ 8 000 PDF de cette taille.
-
-Changer de fournisseur LLM ne demande que de remplacer `ChatGoogleGenerativeAI`
-par `ChatAnthropic`, `ChatGroq`, etc. — le prompt, le retriever, la chaîne LCEL,
-les citations et l'évaluation restent identiques. C'est tout l'intérêt de la
-couche d'orchestration.
-
 ## Installation
 
 Le projet s'installe dans un environnement virtuel dedie (`.venv/`), pour que ses
