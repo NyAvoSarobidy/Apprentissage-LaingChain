@@ -1,0 +1,34 @@
+# === Orchestration LangChain ===
+# LangChain 1.x : l'API a bouge. Les retrievers "helpers" (EnsembleRetriever...)
+# ne sont plus dans langchain.retrievers, d'ou notre HybridRetriever maison
+# dans src/hybrid_retriever.py.
+langchain>=1.0.0
+langchain-core>=1.0.0
+langchain-google-genai>=4.0.0
+langchain-community>=0.4.0
+langchain-text-splitters>=1.0.0
+
+# === Base vectorielle ===
+langchain-chroma>=0.2.0
+chromadb>=1.0.0
+
+# === Embeddings ===
+langchain-voyageai>=0.1.0
+voyageai>=0.5.0
+
+# === Recherche par mots-cles (BM25, Etape 4) ===
+# rank_bm25 est la dependance reelle derriere BM25Retriever :
+# sans elle l'import du module passe, mais l'appel leve ImportError.
+rank_bm25>=0.2.2
+
+# === Interface web ===
+streamlit>=1.38.0
+
+# === Chargement de documents PDF ===
+pypdf>=5.0.0
+
+# === Gestion des variables d'environnement ===
+python-dotenv>=1.0.0
+
+# === Utilitaires ===
+tqdm>=4.66.0

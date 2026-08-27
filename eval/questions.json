@@ -1,0 +1,143 @@
+{
+    "description": "Jeu de questions-références pour l'évaluation du système RAG",
+    "version": "1.0",
+    "total_questions": 15,
+
+    "questions": [
+        {
+            "id": 1,
+            "type": "definition",
+            "question": "Qu'est-ce que le RAG ?",
+            "expected_answer": "Le RAG (Retrieval-Augmented Generation) est une technique qui combine recherche documentaire et génération de texte.",
+            "expected_sources": ["cours_rag.pdf"],
+            "keywords": ["RAG", "recherche", "génération", "retrieval-augmented"],
+            "should_answer": true
+        },
+        {
+            "id": 2,
+            "type": "définition",
+            "question": "Qu'est-ce qu'un embedding ?",
+            "expected_answer": "Un embedding est une représentation numérique (vecteur) d'un texte.",
+            "expected_sources": ["cours_embeddings.pdf", "cours_rag.pdf"],
+            "keywords": ["embedding", "vecteur", "représentation", "numérique"],
+            "should_answer": true
+        },
+        {
+            "id": 3,
+            "type": "liste",
+            "question": "Quels sont les deux types d'IA mentionnés ?",
+            "expected_answer": "Les deux types d'IA sont l'IA faible (ou IA étroite) et l'IA forte (ou intelligence artificielle générale).",
+            "expected_sources": ["cours_ia.pdf"],
+            "keywords": ["IA faible", "IA forte", "générale", "étroite"],
+            "should_answer": true
+        },
+        {
+            "id": 4,
+            "type": "fait",
+            "question": "Quel est le chunk_size recommandé pour le découpage ?",
+            "expected_answer": "Le chunk_size recommandé est de 1000 caractères.",
+            "expected_sources": ["cours_rag.pdf"],
+            "keywords": ["chunk_size", "1000", "caractères", "découpage"],
+            "should_answer": true
+        },
+        {
+            "id": 5,
+            "type": "fait",
+            "question": "Quel est l'overlap entre les chunks ?",
+            "expected_answer": "L'overlap est de 200 caractères.",
+            "expected_sources": ["cours_rag.pdf"],
+            "keywords": ["overlap", "200", "chevauchement"],
+            "should_answer": true
+        },
+        {
+            "id": 6,
+            "type": "définition",
+            "question": "Qu'est-ce que ChromaDB ?",
+            "expected_answer": "ChromaDB est une base vectorielle open source pour stocker et rechercher des embeddings.",
+            "expected_sources": ["cours_chroma.pdf"],
+            "keywords": ["ChromaDB", "base vectorielle", "open source"],
+            "should_answer": true
+        },
+        {
+            "id": 7,
+            "type": "définition",
+            "question": "Qu'est-ce que BM25 ?",
+            "expected_answer": "BM25 est un algorithme de recherche par mots-clés basé sur TF-IDF.",
+            "expected_sources": ["cours_bm25.pdf"],
+            "keywords": ["BM25", "mots-clés", "TF-IDF", "algorithme"],
+            "should_answer": true
+        },
+        {
+            "id": 8,
+            "type": "comparaison",
+            "question": "Quelle est la différence entre recherche vectorielle et recherche par mots-clés ?",
+            "expected_answer": "La recherche vectorielle utilise des embeddings pour capturer le sens sémantique, tandis que la recherche par mots-clés (BM25) se base sur la correspondance exacte des termes.",
+            "expected_sources": ["cours_rag.pdf", "cours_bm25.pdf"],
+            "keywords": ["vectorielle", "mots-clés", "sémantique", "exacte"],
+            "should_answer": true
+        },
+        {
+            "id": 9,
+            "type": "fait",
+            "question": "Quel modèle d'embeddings est utilisé dans ce projet ?",
+            "expected_answer": "Le modèle utilisé est voyage-3-longpert de Voyage AI.",
+            "expected_sources": ["cours_embeddings.pdf"],
+            "keywords": ["voyage-3-longpert", "Voyage AI", "embeddings"],
+            "should_answer": true
+        },
+        {
+            "id": 10,
+            "type": "liste",
+            "question": "Quels sont les avantages de la recherche hybride ?",
+            "expected_answer": "La recherche hybride combine les avantages de la recherche vectorielle (sémantique) et de BM25 (mots-clés).",
+            "expected_sources": ["cours_hybride.pdf"],
+            "keywords": ["hybride", "vectorielle", "BM25", "avantages"],
+            "should_answer": true
+        },
+        {
+            "id": 11,
+            "type": "fait",
+            "question": "Quelle est la température du LLM ?",
+            "expected_answer": "La température est de 0 pour des réponses déterministes.",
+            "expected_sources": ["cours_rag.pdf"],
+            "keywords": ["température", "0", "déterministe"],
+            "should_answer": true
+        },
+        {
+            "id": 12,
+            "type": "définition",
+            "question": "Qu'est-ce que la reformulation contextuelle ?",
+            "expected_answer": "La reformulation contextuelle transforme les questions dépendantes du contexte en questions autonomes.",
+            "expected_sources": ["cours_rag.pdf"],
+            "keywords": ["reformulation", "contextuelle", "autonome"],
+            "should_answer": true
+        },
+        {
+            "id": 13,
+            "type": "hors_sujet",
+            "question": "Quel est le prix de l'action Tesla ?",
+            "expected_answer": "Je ne trouve pas cette information dans les documents fournis.",
+            "expected_sources": [],
+            "keywords": [],
+            "should_answer": false
+        },
+        {
+            "id": 14,
+            "type": "hors_sujet",
+            "question": "Qui a gagné la Coupe du Monde 2022 ?",
+            "expected_answer": "Je ne trouve pas cette information dans les documents fournis.",
+            "expected_sources": [],
+            "keywords": [],
+            "should_answer": false
+        },
+        {
+            "id": 15,
+            "type": "fait",
+            "question": "Quel est le format des citations dans les réponses ?",
+            "expected_answer": "Le format est [nom_du_fichier, page N].",
+            "expected_sources": ["cours_rag.pdf"],
+            "keywords": ["citations", "format", "source", "page"],
+            "should_answer": true
+        }
+    ]
+}

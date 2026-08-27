@@ -63,16 +63,6 @@ python -c "import sys; print(sys.prefix)"
 # doit afficher .../projet-rag/.venv
 ```
 
-Sans activation, prefixer les commandes par l'interpreteur du venv :
-`./.venv/Scripts/python.exe test_etape1.py`
-
-### .venv vs .env — deux choses differentes
-
-| | Role | Versionne ? |
-|---|---|---|
-| `.venv/` | dossier : interpreteur Python isole + paquets du projet | non (gitignore) |
-| `.env` | fichier texte : cles API (`GOOGLE_API_KEY`, `VOYAGE_API_KEY`) | JAMAIS (gitignore) |
-
 ### Piege uv : toujours installer via requirements.txt
 
 `uv pip install <un-seul-paquet>` **remplace** le contenu du venv au lieu d'y
