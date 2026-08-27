@@ -18,14 +18,7 @@ from src.rag_chain import load_vectorstore, build_rag_chain, format_docs
 ENV_PATH = Path(__file__).parent.parent / ".env"
 load_dotenv(dotenv_path=ENV_PATH)
 
-# ---------------------------------------------------------------------------
-# Chargement des clés API — compatible local ET Streamlit Community Cloud
-# ---------------------------------------------------------------------------
 
-# En local, les clés viennent du .env (load_dotenv ci-dessus) -> os.getenv().
-# Sur Streamlit Community Cloud, il n'y a PAS de .env : les clés sont dans
-# st.secrets (rempli via l'interface web du dashboard). On essaie d'abord
-# st.secrets, puis on retombe sur os.getenv() si ce n'est pas dispo.
 def charger_cle(nom: str) -> str:
     """Charge une clé API depuis st.secrets (cloud) ou os.getenv (local)."""
     try:
@@ -41,9 +34,6 @@ def charger_cle(nom: str) -> str:
 GOOGLE_API_KEY = charger_cle("GOOGLE_API_KEY")
 VOYAGE_API_KEY = charger_cle("VOYAGE_API_KEY")
 
-# Injecter les cles dans os.environ pour que les modules importes
-# (ingest.py, rag_chain.py) puissent les lire via os.getenv().
-# En local c'est redondant avec load_dotenv(), sur le cloud c'est indispensable.
 if GOOGLE_API_KEY:
     os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 if VOYAGE_API_KEY:
@@ -94,7 +84,7 @@ with st.sidebar:
     st.title("Assistant RAG")
     st.markdown("Assistant documentaire avec citations")
 
-    # --- Upload de PDF ---
+ 
     st.markdown("---")
     st.subheader(" Documents")
 
