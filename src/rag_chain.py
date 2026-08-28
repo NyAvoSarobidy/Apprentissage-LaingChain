@@ -70,10 +70,7 @@ RÈGLES STRICTES :
 CONTEXTE :
 {context}"""
 
-# ---------------------------------------------------------------------------
 # Prompt de reformulation contextuelle (Étape 3)
-# ---------------------------------------------------------------------------
-
 # Ce prompt est utilisé par le "reformulateur" — un LLM rapide qui
 # transforme une question dépendante du contexte en question autonome.
 #
@@ -100,10 +97,8 @@ QUESTION À REFORMULER :
 
 QUESTION REFORMULÉE :"""
 
-# ---------------------------------------------------------------------------
-# Fonctions
-# ---------------------------------------------------------------------------
 
+# Fonctions
 
 def format_docs(docs: list) -> str:
     """
@@ -112,12 +107,6 @@ def format_docs(docs: list) -> str:
     Chaque chunk est présenté avec sa source et sa page,
     pour que le LLM puisse citer correctement.
 
-    Exemple de sortie :
-        [document.pdf, page 3]
-        Le contenu du chunk est ici...
-
-        [document.pdf, page 4]
-        Un autre chunk...
     """
     formatted = []
     for doc in docs:
@@ -201,7 +190,6 @@ def build_rag_chain(vectorstore: Chroma, chunks: list = None, use_reformulation:
        avec les métadonnées de citation.
 
     4. prompt : injecte le contexte formaté dans le template système.
-
     5. LLM : génère la réponse en suivant les instructions du prompt.
 
     L'opérateur | (pipe) passe la sortie d'un maillon à l'entrée du suivant.
@@ -221,7 +209,7 @@ def build_rag_chain(vectorstore: Chroma, chunks: list = None, use_reformulation:
             print("Recherche hybride activée mais chunks non fournis. Utilisation du vectoriel seul.")
             print("   Pour activer la recherche hybride, passe les chunks à build_rag_chain.")
 
-    # --- LLM principal ---
+    # LLM principal 
     # On ne passe temperature que si le modele l'accepte (voir
     # SUPPORTS_TEMPERATURE en tete de fichier). Ce petit dictionnaire evite
     # d'avoir deux branches d'instanciation quasi identiques.

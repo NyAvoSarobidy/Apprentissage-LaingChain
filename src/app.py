@@ -96,7 +96,7 @@ with st.sidebar:
     )
 
     if uploaded_files:
-        if st.button("Indexer les documents", use_container_width=True):
+        if st.button("Charger et analyser les PDF", use_container_width=True):
             with st.spinner("Indexation en cours..."):
                 # Sauvegarder les fichiers uploadés dans documents/
                 documents_dir = Path(__file__).parent.parent / "documents"
@@ -201,7 +201,7 @@ if not st.session_state.messages:
             "Bonjour ! Je suis ton assistant documentaire.\n\n"
             "Pour commencer :\n"
             "1. **Dépose des PDF** dans la barre latérale\n"
-            "2. **Clique sur 'Indexer'** pour les analyser\n"
+            "2. **Clique sur 'Charger et analyser les PDF'** pour les analyser\n"
             "3. **Pose-moi des questions** sur leur contenu\n\n"
             "Mes réponses citeront les sources : `[document.pdf, page N]`"
         )
